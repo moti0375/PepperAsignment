@@ -45,6 +45,7 @@ class MainActivity : AppCompatActivity() , CitiesFragment.CitiesEventListener{
     }
 
 
+    
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
         return super.onCreateOptionsMenu(menu)
     }
