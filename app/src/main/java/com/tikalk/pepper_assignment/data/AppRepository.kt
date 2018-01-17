@@ -23,7 +23,7 @@ class AppRepository (val remoteDatasource: RemoteDatasource, val localDatasource
     var locationId: String? = null
 
     override fun getForecastForLocation(location : String, period: Int) : Flowable<List<Forecast>>{
-        return if(!cache.isEmpty() && location.equals(locationId)){
+        return if(!cache.isEmpty() && location == locationId){
             Log.i(TAG, "Loading from cache")
             Flowable.just(cache)
         }else{
@@ -62,7 +62,6 @@ class AppRepository (val remoteDatasource: RemoteDatasource, val localDatasource
             it -> groupCache.clear()
             groupCache.addAll(it)
         }
-
     }
 
 }

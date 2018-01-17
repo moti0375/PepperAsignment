@@ -9,7 +9,7 @@ import com.tikalk.pepper_assignment.model.single.Forecast
  */
 interface ForecastContract {
     interface View : BaseView{
-        fun showForecast(forecast : List<Forecast>)
+        fun showForecast(forecast : List<Forecast>?)
     }
 
     interface Presenter : BasePresenter{

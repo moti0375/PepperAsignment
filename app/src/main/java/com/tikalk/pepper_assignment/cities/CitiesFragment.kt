@@ -1,7 +1,6 @@
 package com.tikalk.pepper_assignment.cities
 
 
-import android.app.FragmentManager
 import android.content.Context
 import android.os.Bundle
 import android.support.v4.app.Fragment
@@ -16,9 +15,6 @@ import com.tikalk.pepper_assignment.R
 import com.tikalk.pepper_assignment.model.group.City
 import kotlinx.android.synthetic.main.cities_fragment.*
 import javax.inject.Inject
-import com.tikalk.pepper_assignment.MainActivity
-
-
 
 
 /**
@@ -62,7 +58,6 @@ class CitiesFragment : Fragment(), CitiesContract.View, CitiesRecyclerAdapter.Ci
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        presenter.setView(this)
         rvCities.layoutManager = GridLayoutManager(activity, 2)
         rvCities.adapter = adapter
         adapter.adapterClickListener = this
@@ -70,9 +65,14 @@ class CitiesFragment : Fragment(), CitiesContract.View, CitiesRecyclerAdapter.Ci
 
     override fun onResume() {
         super.onResume()
+        presenter.attach(this)
         presenter.loadCitiesForecast()
     }
 
+    override fun onPause() {
+        super.onPause()
+        presenter.detach()
+    }
 
     override fun onDetach() {
         super.onDetach()

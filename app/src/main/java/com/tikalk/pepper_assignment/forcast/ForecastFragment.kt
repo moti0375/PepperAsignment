@@ -3,7 +3,6 @@ package com.tikalk.pepper_assignment.forcast
 import android.content.Context
 import android.os.Bundle
 import android.support.v4.app.Fragment
-import android.support.v7.app.ActionBar
 import android.support.v7.widget.LinearLayoutManager
 import android.view.LayoutInflater
 import android.view.View
@@ -42,20 +41,23 @@ class ForecastFragment : Fragment(), ForecastContract.View{
         super.onViewCreated(view, savedInstanceState)
         rvForecast.layoutManager = LinearLayoutManager(activity)
         rvForecast.adapter = adapter
-        presenter.setView(this)
     }
 
     override fun onResume() {
         super.onResume()
+        presenter.attach(this)
         val id = arguments?.getInt(MainActivity.ID)
         val name : String? = arguments?.getString(MainActivity.NAME)
+        tvCityName.text = name
         presenter.loadForecastForLocation("$id", 5)
     }
 
-
-    override fun showForecast(forecast: List<Forecast>) {
-        adapter.updateForecast(forecast)
+    override fun onDestroy() {
+        super.onDestroy()
+        presenter.detach()
     }
 
-
+    override fun showForecast(forecast: List<Forecast>?) {
+        adapter.updateForecast(forecast)
+    }
 }

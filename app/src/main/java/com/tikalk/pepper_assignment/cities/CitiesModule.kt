@@ -13,7 +13,6 @@ import javax.inject.Singleton
 class CitiesModule {
 
     @Provides
-    @Singleton
     fun provideCitiesPresenter(repository: AppRepository) : CitiesPresenter{
         return CitiesPresenter(repository)
     }
