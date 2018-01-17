@@ -15,32 +15,28 @@ import com.tikalk.pepper_assignment.MyApplication
 import com.tikalk.pepper_assignment.R
 import com.tikalk.pepper_assignment.model.single.Forecast
 import kotlinx.android.synthetic.main.forecast_fragment.*
-import java.util.prefs.Preferences
 import javax.inject.Inject
 
 
-class ForecastFragment : Fragment(), ForecastContract.View{
+class ForecastFragment : Fragment(), ForecastContract.View {
 
     @Inject
-    lateinit var presenter : ForecastPresenter
+    lateinit var presenter: ForecastPresenter
 
     @Inject
-    lateinit var adapter : ForecastRecyclerAdapter
+    lateinit var adapter: ForecastRecyclerAdapter
 
-    lateinit var sharedPreferences : SharedPreferences
+    lateinit var sharedPreferences: SharedPreferences
 
     override fun onAttach(context: Context?) {
         super.onAttach(context)
         (activity?.application as MyApplication).component.injectForecast(this)
-        val ab = activity?.actionBar
         sharedPreferences = PreferenceManager.getDefaultSharedPreferences(activity)
-//        ab?.setDisplayHomeAsUpEnabled(true)
-//        ab?.setDisplayShowHomeEnabled(true)
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
-         return inflater.inflate(R.layout.forecast_fragment, container, false)
+        return inflater.inflate(R.layout.forecast_fragment, container, false)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -52,19 +48,22 @@ class ForecastFragment : Fragment(), ForecastContract.View{
     override fun onResume() {
         super.onResume()
         presenter.attach(this)
+
         val id = arguments?.getInt(MainActivity.ID)
-        val name : String? = arguments?.getString(MainActivity.NAME)
+        val name: String? = arguments?.getString(MainActivity.NAME)
         tvCityName.text = name
-        val period = Integer.valueOf(sharedPreferences.getString("prefsPeriodKey", "5"))
+        val period = Integer.valueOf(sharedPreferences.getString(getString(R.string.forecastPeriodKey), "5"))
         presenter.loadForecastForLocation("$id", period)
+
     }
 
-    override fun onDestroy() {
-        super.onDestroy()
+    override fun onPause() {
+        super.onPause()
         presenter.detach()
     }
 
     override fun showForecast(forecast: List<Forecast>?) {
         adapter.updateForecast(forecast)
     }
+
 }

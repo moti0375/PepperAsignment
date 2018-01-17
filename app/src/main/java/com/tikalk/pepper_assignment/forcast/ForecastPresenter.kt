@@ -2,7 +2,6 @@ package com.tikalk.pepper_assignment.forcast
 
 import android.util.Log
 import com.tikalk.pepper_assignment.BaseView
-import com.tikalk.pepper_assignment.cities.CitiesPresenter
 import com.tikalk.pepper_assignment.data.AppRepository
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
@@ -13,6 +12,7 @@ import io.reactivex.schedulers.Schedulers
  * Created by motibartov on 14/01/2018.
  */
 class ForecastPresenter(val repository: AppRepository) : ForecastContract.Presenter {
+
 
 
     companion object {
