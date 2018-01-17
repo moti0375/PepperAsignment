@@ -1,12 +1,15 @@
 package com.tikalk.pepper_assignment
 
+import android.content.Intent
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import android.view.Menu
+import android.view.MenuInflater
 import android.view.MenuItem
 import com.tikalk.pepper_assignment.cities.CitiesFragment
 import com.tikalk.pepper_assignment.forcast.ForecastFragment
+import com.tikalk.pepper_assignment.settings.SettingsActivity
 import javax.security.auth.login.LoginException
 
 class MainActivity : AppCompatActivity() , CitiesFragment.CitiesEventListener{
@@ -47,7 +50,8 @@ class MainActivity : AppCompatActivity() , CitiesFragment.CitiesEventListener{
 
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
-        return super.onCreateOptionsMenu(menu)
+        menuInflater.inflate(R.menu.main_menu, menu)
+        return true
     }
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.getItemId()) {
@@ -59,6 +63,11 @@ class MainActivity : AppCompatActivity() , CitiesFragment.CitiesEventListener{
                     getSupportActionBar()?.setDisplayHomeAsUpEnabled(false)
                 }
                 return true
+            }
+
+            R.id.ic_settings ->{
+                val intent = Intent(this, SettingsActivity::class.java)
+                startActivity(intent)
             }
         }
         return super.onOptionsItemSelected(item)

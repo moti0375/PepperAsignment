@@ -1,8 +1,10 @@
 package com.tikalk.pepper_assignment.forcast
 
 import android.content.Context
+import android.content.SharedPreferences
 import android.os.Bundle
 import android.support.v4.app.Fragment
+import android.support.v7.preference.PreferenceManager
 import android.support.v7.widget.LinearLayoutManager
 import android.view.LayoutInflater
 import android.view.View
@@ -13,6 +15,7 @@ import com.tikalk.pepper_assignment.MyApplication
 import com.tikalk.pepper_assignment.R
 import com.tikalk.pepper_assignment.model.single.Forecast
 import kotlinx.android.synthetic.main.forecast_fragment.*
+import java.util.prefs.Preferences
 import javax.inject.Inject
 
 
@@ -24,10 +27,13 @@ class ForecastFragment : Fragment(), ForecastContract.View{
     @Inject
     lateinit var adapter : ForecastRecyclerAdapter
 
+    lateinit var sharedPreferences : SharedPreferences
+
     override fun onAttach(context: Context?) {
         super.onAttach(context)
         (activity?.application as MyApplication).component.injectForecast(this)
         val ab = activity?.actionBar
+        sharedPreferences = PreferenceManager.getDefaultSharedPreferences(activity)
 //        ab?.setDisplayHomeAsUpEnabled(true)
 //        ab?.setDisplayShowHomeEnabled(true)
     }
@@ -49,7 +55,8 @@ class ForecastFragment : Fragment(), ForecastContract.View{
         val id = arguments?.getInt(MainActivity.ID)
         val name : String? = arguments?.getString(MainActivity.NAME)
         tvCityName.text = name
-        presenter.loadForecastForLocation("$id", 5)
+        val period = Integer.valueOf(sharedPreferences.getString("prefsPeriodKey", "5"))
+        presenter.loadForecastForLocation("$id", period)
     }
 
     override fun onDestroy() {

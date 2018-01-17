@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string-array name="period_entries" translatable="false">
+        <item>5 Days</item>
+        <item>One Week</item>
+        <item>Two Weeks</item>
+        <item>16 Days</item>
+    </string-array>
+
+    <string-array name="period_values" translatable="false">
+        <item>5</item>
+        <item>7</item>
+        <item>14</item>
+        <item>16</item>
+    </string-array>
+</resources>

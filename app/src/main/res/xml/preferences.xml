@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:gm ="http://schemas.android.com/apk/res/com.tikalk.gmapp">
+
+    <PreferenceCategory android:title="Forecast Settings">
+
+        <ListPreference
+            android:key="@string/forecastPeriodKey"
+            android:title="@string/forecastPeriodTitle"
+            android:entryValues="@array/period_values"
+            android:entries="@array/period_entries"
+            android:defaultValue="5"/>
+    </PreferenceCategory>
+
+</PreferenceScreen>
