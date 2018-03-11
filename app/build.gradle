@@ -7,7 +7,7 @@ apply plugin: 'kotlin-android-extensions'
 android {
     compileSdkVersion rootProject.ext.compileSdkVersion
     defaultConfig {
-        applicationId "com.tikalk.pepper_assignment"
+        applicationId "com.bartovapps.wetherapp"
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
         versionCode 1
@@ -60,5 +60,15 @@ dependencies {
     //Glide
     implementation "com.github.bumptech.glide:glide:$rootProject.ext.glideVersion"
     kapt "com.github.bumptech.glide:compiler:$rootProject.ext.glideVersion"
+
+
+    //Room
+    implementation "android.arch.persistence.room:runtime:$rootProject.ext.roomVersion"
+    kapt "android.arch.persistence.room:compiler:$rootProject.ext.roomVersion"
+
+
+    //LiveData & ViewModel
+    implementation "android.arch.lifecycle:extensions:$rootProject.ext.archVersion"
+
 
 }

@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/background"
-    tools:context="com.tikalk.pepper_assignment.cities.CitiesFragment">
+    tools:context="com.bartovapps.wetherapp.cities.CitiesFragment">
 
 
     <android.support.v7.widget.RecyclerView

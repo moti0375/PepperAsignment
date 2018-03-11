@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/background"
-    tools:context="com.tikalk.pepper_assignment.forcast.ForecastFragment">
+    tools:context="com.bartovapps.wetherapp.forcast.ForecastFragment">
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/rvForecast"

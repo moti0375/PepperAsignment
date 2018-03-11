@@ -46,4 +46,6 @@ ext {
     constraint_layout_version = '1.0.2'
     daggerVersion = "2.9"
     glideVersion = "4.4.0"
+    roomVersion = "1.0.0"
+    archVersion = "1.1.0"
 }
