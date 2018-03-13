@@ -3,7 +3,6 @@ package com.bartovapps.wetherapp.data.source.remote
 import com.bartovapps.wetherapp.api.ApiService
 import com.bartovapps.wetherapp.data.source.BaseDatasource
 import com.bartovapps.wetherapp.model.global.GlobalForecast
-import com.bartovapps.wetherapp.model.local.LocalForecast
 import io.reactivex.Flowable
 
 /**
@@ -21,9 +20,9 @@ class RemoteDatasource (val apiService: ApiService) : BaseDatasource{
     }
 
 
-    override fun getGlobalWeather(group: String): Flowable<List<GlobalForecast>> {
-        return apiService.getGlobalWeather(group).map {
-            it -> it.cityWeather
+    override fun getGlobalWeather(c: String, period: Int): Flowable<List<GlobalForecast>> {
+        return apiService.getGlobalWeather(c, period).map {
+            it -> it.dailyForecast
         }
     }
 }

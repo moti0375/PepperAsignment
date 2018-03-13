@@ -6,21 +6,22 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import com.bumptech.glide.Glide
-import com.bumptech.glide.request.RequestOptions
 import com.bartovapps.wetherapp.R
 import com.bartovapps.wetherapp.api.ApiModule
-import com.bartovapps.wetherapp.model.local.LocalForecast
-import kotlinx.android.synthetic.main.forecast_list_item.view.*
+import com.bartovapps.wetherapp.model.global.GlobalForecast
+import com.bartovapps.wetherapp.model.local.Weather
+import com.bumptech.glide.Glide
+import com.bumptech.glide.request.RequestOptions
+import kotlinx.android.synthetic.main.daily_list_item.view.*
 import java.text.SimpleDateFormat
 import java.util.*
 
 /**
  * Created by motibartov on 14/01/2018.
  */
-class ForecastRecyclerAdapter : RecyclerView.Adapter<ForecastRecyclerAdapter.ForecastViewHolder>() {
+class DailyForcastAdapter : RecyclerView.Adapter<DailyForcastAdapter.ForecastViewHolder>() {
 
-    var data = ArrayList<LocalForecast>()
+    var data = ArrayList<GlobalForecast>()
 
     companion object {
         val TAG = "TAG_ForecastAdapter"
@@ -31,7 +32,7 @@ class ForecastRecyclerAdapter : RecyclerView.Adapter<ForecastRecyclerAdapter.For
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ForecastViewHolder {
-        val view = LayoutInflater.from(parent.context).inflate(R.layout.forecast_list_item, parent, false)
+        val view = LayoutInflater.from(parent.context).inflate(R.layout.daily_list_item, parent, false)
         return ForecastViewHolder(view)
     }
 
@@ -40,7 +41,7 @@ class ForecastRecyclerAdapter : RecyclerView.Adapter<ForecastRecyclerAdapter.For
     }
 
 
-    fun updateForecast(forecast: List<LocalForecast>?) {
+    fun updateForecast(forecast: List<GlobalForecast>?) {
         data.clear()
         if (forecast != null) {
             data.addAll(forecast)
@@ -49,17 +50,16 @@ class ForecastRecyclerAdapter : RecyclerView.Adapter<ForecastRecyclerAdapter.For
     }
 
     class ForecastViewHolder(val view: View) : RecyclerView.ViewHolder(view) {
-        var sdf = SimpleDateFormat("dd-MM-yyyy", Locale.getDefault())
+        var sdf = SimpleDateFormat("h a", Locale.getDefault())
         val glideOptions = RequestOptions().fitCenter()
 
-        fun bind(forecast: LocalForecast) {
-            Log.i(TAG, "${forecast}")
-            Glide.with(view.context).load(ApiModule.BASE_ICON_URL + forecast.weather[0].icon + ".png").apply(glideOptions).into(view.ivItemIcon)
-            view.tvForecastTemp.text = "${forecast.temp?.min}℃ - ${forecast.temp?.max}℃"
-            view.tvDescription.text = "${forecast.weather[0].description}"
-            val date = forecast.dt * 1000
+        fun bind(w: GlobalForecast) {
+            Log.i(TAG, "${w}")
+            Glide.with(view.context).load(ApiModule.BASE_ICON_URL + w.weather[0].icon + ".png").apply(glideOptions).into(view.iv_daily_icon)
+            val date = w.dt * 1000
             val dateStr = sdf.format(date) + " - " + DateUtils.getRelativeTimeSpanString(date, System.currentTimeMillis(), DateUtils.DAY_IN_MILLIS, DateUtils.FORMAT_ABBREV_ALL)
-            view.tvDay.text = dateStr
+            view.tv_daily_hour.text = sdf.format(date)
+            view.tv_daily_temperature.text = view.context.getString(R.string.temperature, w.globalTemp.temp)
         }
 
     }

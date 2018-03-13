@@ -45,5 +45,11 @@ class ForecastModule {
         return ForecastRecyclerAdapter()
     }
 
+    @Provides
+    @Singleton
+    fun provideDailyAdapter(): DailyForcastAdapter{
+        return DailyForcastAdapter()
+    }
+
 
 }

@@ -11,17 +11,16 @@ import com.bartovapps.wetherapp.model.local.Weather
 
 data class GlobalForecast(
 
+        @SerializedName("dt")
         @Expose
-        @SerializedName("weather")
-        var weather: List<Weather>,
-        @SerializedName("id")
-        @Expose
-        var id: Int? = null,
-        @SerializedName("name")
-        @Expose
-        var name: String? = null,
+        var dt: Long,
+
         @SerializedName("main")
         @Expose
-        var globalTemp: GlobalTemp
+        var globalTemp: GlobalTemp,
+
+        @Expose
+        @SerializedName("weather")
+        var weather: List<Weather>
 
 )

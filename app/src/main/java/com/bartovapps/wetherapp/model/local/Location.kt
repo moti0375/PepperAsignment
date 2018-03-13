@@ -12,9 +12,11 @@ data class Location(
         @SerializedName("id")
         @Expose
         var id: Int? = null,
+
         @SerializedName("name")
         @Expose
         var name: String? = null,
+
         @SerializedName("country")
         @Expose
         var country: String? = null

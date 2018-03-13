@@ -12,7 +12,12 @@ data class LocalTemp(
         @SerializedName("min")
         @Expose
         var min: Double? = null,
+
         @SerializedName("max")
         @Expose
-        var max: Double? = null
+        var max: Double? = null,
+
+        @SerializedName("day")
+        @Expose
+        var day: Double? = null
 )

@@ -11,9 +11,11 @@ data class LocalForecast(
         @SerializedName("dt")
         @Expose
         var dt: Long,
+
         @SerializedName("temp")
         @Expose
         var temp: LocalTemp? = null,
+
         @SerializedName("weather")
         @Expose
         var weather: List<Weather>

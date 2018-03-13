@@ -1,5 +1,7 @@
 package com.bartovapps.wetherapp.api
 
+import android.util.Log
+import android.util.Log.i
 import dagger.Module
 import dagger.Provides
 import okhttp3.OkHttpClient
@@ -16,6 +18,7 @@ import javax.inject.Singleton
 @Module
 class ApiModule{
     companion object {
+        val TAG = "ApiModule"
         val BASE_URL = "http://api.openweathermap.org/data/2.5/"
         val BASE_ICON_URL = "http://openweathermap.org/img/w/"
         val APPID = "b2eae64e8afadeb8071560de94288556"
@@ -34,6 +37,8 @@ class ApiModule{
                     val url =request.url().
                             newBuilder().
                             addQueryParameter("APPID", APPID).build()
+                    i(TAG, "Request url: $url")
+
                     request = request.newBuilder().url(url).build()
                     chain.proceed(request)
                 }.build()

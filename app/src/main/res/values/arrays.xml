@@ -14,4 +14,11 @@
         <item>14</item>
         <item>16</item>
     </string-array>
+
+
+    <string-array name="locations" translatable = "false">
+        <item>Tel Aviv</item>
+        <item>London</item>
+        <item>New York</item>
+    </string-array>
 </resources>

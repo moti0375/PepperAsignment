@@ -15,6 +15,6 @@ data class ApiResponseForGlobal(
     var cnt: Int? = null,
     @SerializedName("list")
     @Expose
-    var cityWeather: List<GlobalForecast>? = null
+    var dailyForecast: List<GlobalForecast>? = null
 
 )

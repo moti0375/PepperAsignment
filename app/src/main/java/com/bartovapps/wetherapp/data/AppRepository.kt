@@ -1,6 +1,7 @@
 package com.bartovapps.wetherapp.data
 
 import android.util.Log
+import android.util.Log.i
 import com.bartovapps.wetherapp.data.source.BaseDatasource
 import com.bartovapps.wetherapp.data.source.local.LocalDatasource
 import com.bartovapps.wetherapp.data.source.remote.RemoteDatasource
@@ -35,7 +36,7 @@ class AppRepository (val remoteDatasource: RemoteDatasource, val localDatasource
         }
     }
 
-    fun loadForecastFromLocal(location: String, period: Int) : Flowable<List<com.bartovapps.wetherapp.model.local.LocalForecast>>{
+    private fun loadForecastFromLocal(location: String, period: Int) : Flowable<List<com.bartovapps.wetherapp.model.local.LocalForecast>>{
         return localDatasource.getLocalWeather(location, period).
                 take(1).
                 flatMap { list -> Flowable.fromIterable(list) }.
@@ -51,7 +52,7 @@ class AppRepository (val remoteDatasource: RemoteDatasource, val localDatasource
     }
 
 
-    fun loadForecastFromRemote(location: String, period: Int) : Flowable<List<com.bartovapps.wetherapp.model.local.LocalForecast>>{
+   private fun loadForecastFromRemote(location: String, period: Int) : Flowable<List<com.bartovapps.wetherapp.model.local.LocalForecast>>{
         return remoteDatasource.getLocalWeather(location, period).
                 doOnNext{
                     list -> cache.clear()
@@ -59,10 +60,11 @@ class AppRepository (val remoteDatasource: RemoteDatasource, val localDatasource
                 }
     }
 
-    override fun getGlobalWeather(cities: String): Flowable<List<GlobalForecast>> {
-    return remoteDatasource.getGlobalWeather(cities).doOnNext{
+    override fun getGlobalWeather(cities: String, period: Int): Flowable<List<GlobalForecast>> {
+        i(TAG, "getGlobalWeather:  called")
+        return remoteDatasource.getGlobalWeather(cities, period).doOnNext{
             it -> groupCache.clear()
-            groupCache.addAll(it)
+        groupCache.addAll(it)
         }
     }
 

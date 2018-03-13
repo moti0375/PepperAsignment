@@ -16,7 +16,7 @@ class LocalDatasource : BaseDatasource{
     }
 
 
-    override fun getGlobalWeather(group: String): Flowable<List<GlobalForecast>> {
+    override fun getGlobalWeather(group: String, period: Int): Flowable<List<GlobalForecast>> {
         return Flowable.empty()
     }
 }

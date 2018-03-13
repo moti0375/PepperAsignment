@@ -9,5 +9,5 @@ import io.reactivex.Flowable
 interface BaseDatasource {
     fun getLocalWeather(location: String, period: Int) : Flowable<List<com.bartovapps.wetherapp.model.local.LocalForecast>>
 
-    fun getGlobalWeather(group: String) : Flowable<List<GlobalForecast>>
+    fun getGlobalWeather(group: String, period: Int) : Flowable<List<GlobalForecast>>
 }

@@ -31,10 +31,10 @@ ext {
     minSdkVersion = 21
     targetSdkVersion = 27
     compileSdkVersion = 27
-    buildToolsVersion = '27.0.2'
+    buildToolsVersion = '27.1.0'
 
     // App dependencies
-    supportVersion = '27.0.2'
+    supportVersion = '27.1.0'
     timberVersion = '4.6.0'
     rx2AndroidVersion = '2.0.1'
     rx2KotlinVersion = '2.2.0'

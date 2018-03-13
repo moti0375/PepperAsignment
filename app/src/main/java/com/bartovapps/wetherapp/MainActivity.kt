@@ -6,11 +6,10 @@ import android.os.Bundle
 import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
-import com.bartovapps.wetherapp.cities.CitiesFragment
 import com.bartovapps.wetherapp.forcast.ForecastFragment
 import com.bartovapps.wetherapp.settings.SettingsActivity
 
-class MainActivity : AppCompatActivity(), CitiesFragment.CitiesEventListener {
+class MainActivity : AppCompatActivity() {
 
 
     companion object {
@@ -24,26 +23,10 @@ class MainActivity : AppCompatActivity(), CitiesFragment.CitiesEventListener {
         setContentView(R.layout.activity_main)
         Log.i(TAG, "onCreate")
         if (savedInstanceState == null) {
-            supportFragmentManager.beginTransaction().add(R.id.container, CitiesFragment()).commit()
+            supportFragmentManager.beginTransaction().add(R.id.container, ForecastFragment()).commit()
         }
     }
 
-
-    override fun onCityClicked(id: Int?, name: String?) {
-        val forecast = ForecastFragment()
-        val bundle = Bundle()
-
-        id?.let { bundle.putInt(ID, it) }
-        name?.let { bundle.putString(NAME, it) }
-        forecast.arguments = bundle
-        val tr = supportFragmentManager.beginTransaction().replace(R.id.container, forecast)
-                .setCustomAnimations(android.R.animator.fade_out, android.R.animator.fade_in)
-                .addToBackStack(null)
-
-        tr.commit()
-        getSupportActionBar()?.setDisplayHomeAsUpEnabled(true)
-
-    }
 
     override fun onDestroy() {
         super.onDestroy()
