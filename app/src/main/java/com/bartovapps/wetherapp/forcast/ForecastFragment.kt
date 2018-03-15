@@ -1,12 +1,12 @@
 package com.bartovapps.wetherapp.forcast
 
-import android.arch.persistence.room.util.StringUtil
 import android.content.Context
 import android.content.SharedPreferences
 import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.support.v7.preference.PreferenceManager
 import android.support.v7.widget.LinearLayoutManager
+import android.text.format.DateUtils
 import android.util.Log.i
 import android.view.LayoutInflater
 import android.view.View
@@ -20,10 +20,8 @@ import com.bartovapps.wetherapp.api.ApiService
 import com.bartovapps.wetherapp.model.global.GlobalForecast
 import com.bartovapps.wetherapp.model.local.LocalForecast
 import com.bumptech.glide.Glide
-import com.bumptech.glide.request.RequestOptions
-import kotlinx.android.synthetic.main.forecast_list_item.*
-import kotlinx.android.synthetic.main.forecast_list_item.view.*
 import kotlinx.android.synthetic.main.fragment_main_weather.*
+import java.text.SimpleDateFormat
 import javax.inject.Inject
 
 
@@ -31,13 +29,14 @@ class ForecastFragment : Fragment(), ForecastContract.View {
 
     @Inject
     lateinit var presenter: ForecastPresenter
-
-
-
+    
     @Inject
     lateinit var adapter: DailyForcastAdapter
 
     lateinit var sharedPreferences: SharedPreferences
+
+    @Inject
+    lateinit var sdf : SimpleDateFormat
 
     companion object {
         val TAG = "ForecastFragment"
@@ -89,6 +88,13 @@ class ForecastFragment : Fragment(), ForecastContract.View {
 //        adapter.updateForecast(forecast)
         i(TAG, "Loaded forecast: $forecast")
         val today = forecast?.get(0)
+
+
+        if(today != null){
+            val date = today.dt * 1000
+            tvTodayDate.text = DateUtils.getRelativeTimeSpanString(date, System.currentTimeMillis(), DateUtils.DAY_IN_MILLIS, DateUtils.FORMAT_ABBREV_ALL)
+        }
+
         Glide.with(activity).load(ApiModule.BASE_ICON_URL + today?.weather?.get(0)?.icon + ".png").into(ivForecastIcon)
         tvDailyDescription.text = today?.weather?.get(0)?.description
 //        tvTemperature.text = getString(R.string.forecast_temp, today?.temp?.min, today?.temp?.max )

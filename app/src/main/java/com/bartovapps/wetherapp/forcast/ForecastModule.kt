@@ -6,6 +6,8 @@ import com.bartovapps.wetherapp.data.source.local.LocalDatasource
 import com.bartovapps.wetherapp.data.source.remote.RemoteDatasource
 import dagger.Module
 import dagger.Provides
+import java.text.SimpleDateFormat
+import java.util.*
 import javax.inject.Singleton
 
 /**
@@ -49,6 +51,12 @@ class ForecastModule {
     @Singleton
     fun provideDailyAdapter(): DailyForcastAdapter{
         return DailyForcastAdapter()
+    }
+
+    @Provides
+    @Singleton
+    fun provideSdf() : SimpleDateFormat{
+        return SimpleDateFormat("dd-MM-yyyy", Locale.getDefault())
     }
 
 
