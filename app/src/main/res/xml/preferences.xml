@@ -5,7 +5,7 @@
     <PreferenceCategory android:title="Forecast Settings">
 
         <ListPreference
-            android:key="@string/forecastPeriodKey"
+            android:key="period_key"
             android:title="@string/forecastPeriodTitle"
             android:entryValues="@array/period_values"
             android:entries="@array/period_entries"

@@ -2,7 +2,8 @@ package com.bartovapps.weather.data.source.remote
 
 import com.bartovapps.weather.api.ApiService
 import com.bartovapps.weather.data.source.BaseDatasource
-import com.bartovapps.weather.model.global.GlobalForecast
+import com.bartovapps.weather.model.daily_forecast.DailyForecast
+import com.bartovapps.weather.model.forecast.Forecast
 import io.reactivex.Flowable
 
 /**
@@ -11,18 +12,28 @@ import io.reactivex.Flowable
 
 class RemoteDatasource (val apiService: ApiService) : BaseDatasource{
 
-
-    override fun getLocalWeather(location: String, period: Int) : Flowable<List<com.bartovapps.weather.model.local.LocalForecast>>{
+    override fun fetchForecast(location: String, period: Int) : Flowable<List<Forecast>>{
         val map = hashMapOf<String, String>()
-        return apiService.getLocalWeather(location, period).map{
+        return apiService.fetchForecast(location, period).map{
             it -> it.forecast
         }
     }
 
-
-    override fun getGlobalWeather(c: String, period: Int): Flowable<List<GlobalForecast>> {
-        return apiService.getGlobalWeather(c, period).map {
+    override fun fetchDailyForecast(c: String, period: Int): Flowable<List<DailyForecast>> {
+        return apiService.fetchDailyForecast(c, period).map {
             it -> it.dailyForecast
         }
+    }
+
+    override fun insertForecast(forecast: List<Forecast>) {
+        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    }
+
+    override fun insertDailyForecast(dailyForecast: List<DailyForecast>) {
+        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    }
+
+    override fun deleteForecast() {
+        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 }

@@ -17,11 +17,13 @@ import com.bartovapps.weather.MyApplication
 import com.bartovapps.weather.R
 import com.bartovapps.weather.api.ApiModule
 import com.bartovapps.weather.api.ApiService
-import com.bartovapps.weather.model.global.GlobalForecast
-import com.bartovapps.weather.model.local.LocalForecast
+import com.bartovapps.weather.model.forecast.Forecast
+import com.bartovapps.weather.model.daily_forecast.DailyForecast
+import com.bartovapps.weather.settings.PreferencesHelper
 import com.bumptech.glide.Glide
 import kotlinx.android.synthetic.main.fragment_main_weather.*
 import java.text.SimpleDateFormat
+import java.util.*
 import javax.inject.Inject
 
 
@@ -36,11 +38,14 @@ class ForecastFragment : Fragment(), ForecastContract.View {
     @Inject
     lateinit var weeklyAdapter: WeeklyForecastAdapter
 
+    @Inject
     lateinit var sharedPreferences: SharedPreferences
 
-    @Inject
-    lateinit var sdf : SimpleDateFormat
+    @Inject lateinit var preferencesHelper: PreferencesHelper
 
+    @Inject lateinit var sdf : SimpleDateFormat
+
+    var forceUpdate : Boolean = true
     companion object {
         val TAG = "ForecastFragment"
     }
@@ -59,6 +64,9 @@ class ForecastFragment : Fragment(), ForecastContract.View {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        i(TAG, "onViewCreated: ")
+        spLocation.setSelection(getSelectionPosition(preferencesHelper.getLocation()))
         spLocation.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
             override fun onNothingSelected(parent: AdapterView<*>?) {
                 i(TAG, "onNothingSelected: nothing selected")
@@ -67,12 +75,13 @@ class ForecastFragment : Fragment(), ForecastContract.View {
             override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
 
                 val selectedItem: String = spLocation.selectedItem as String
+                val period = preferencesHelper.getPeriod()
                 i(TAG, "onItemSelected: Item selected: ${spLocation.selectedItem}")
-                val period = Integer.valueOf(sharedPreferences.getString(getString(R.string.forecastPeriodKey), "5"))
-                presenter.loadForecastForLocation(ApiService.cities[selectedItem], period)
-            }
 
+                presenter.loadForecastForLocation(ApiService.cities[selectedItem], period, forecastDirty(selectedItem))
+            }
         }
+
         rvDailyForecast.layoutManager = LinearLayoutManager(activity, LinearLayoutManager.HORIZONTAL, false)
         rvDailyForecast.adapter = dailyAdapter
 
@@ -90,11 +99,9 @@ class ForecastFragment : Fragment(), ForecastContract.View {
         presenter.unsubscribe()
     }
 
-    override fun showForecast(forecast: List<LocalForecast>?) {
-//        dailyAdapter.updateForecast(forecast)
-        i(TAG, "Loaded forecast: $forecast")
-        val today = forecast?.get(0)
-
+    override fun showDailyForecast(dailyForecast: List<DailyForecast>?) {
+//        i(TAG, "Loaded forecast: $dailyForecast")
+        val today = dailyForecast?.get(0)
 
         if(today != null){
             val date = today.dt * 1000
@@ -105,17 +112,33 @@ class ForecastFragment : Fragment(), ForecastContract.View {
         tvDailyDescription.text = today?.weather?.get(0)?.description
 //        tvTemperature.text = getString(R.string.forecast_temp, today?.temp?.min, today?.temp?.max )
         tvTemperature.text = getString(R.string.temperature, today?.temp?.day)
-
-        weeklyAdapter.updateForecast(forecast)
+        weeklyAdapter.updateForecast(dailyForecast)
 
     }
 
 
-    override fun showDailyForecast(dailyForecast: List<GlobalForecast>?) {
-        i(TAG, "showDailyForecast: ${dailyForecast.toString()}")
-        dailyAdapter.updateForecast(dailyForecast)
+    override fun showForecast(forecast: List<Forecast>?) {
+//        i(TAG, "showDailyForecast: ${forecast.toString()}")
+        dailyAdapter.updateForecast(forecast)
     }
 
 
+    private fun forecastDirty(selectedLocation: String) : Boolean{
+        val location = preferencesHelper.getLocation()
+        val lastUpdated = preferencesHelper.getLastUpdated()
+        val today = sdf.format(Date(System.currentTimeMillis()))
+        preferencesHelper.setLastUpdated(today)
+        preferencesHelper.saveLocation(selectedLocation)
+        val dirty = lastUpdated == null || lastUpdated !=  today || location != selectedLocation
+        i(TAG, "lastUpdated: $lastUpdated, today: $today, selectedLocation: $selectedLocation, savedLocation: $location is dirty: $dirty")
+        return dirty
+    }
 
+
+    private fun getSelectionPosition(selection: String?) : Int{
+        val locations: List<String> = activity?.resources?.getStringArray(R.array.locations)?.asList()
+                ?: return 0
+
+        return locations?.indexOf(selection)
+    }
 }

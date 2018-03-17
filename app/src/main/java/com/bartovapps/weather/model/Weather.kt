@@ -1,4 +1,4 @@
-package com.bartovapps.weather.model.local
+package com.bartovapps.weather.model
 
 import com.google.gson.annotations.Expose
 import com.google.gson.annotations.SerializedName

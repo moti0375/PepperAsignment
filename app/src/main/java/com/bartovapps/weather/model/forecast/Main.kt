@@ -1,4 +1,4 @@
-package com.bartovapps.weather.model.global
+package com.bartovapps.weather.model.forecast
 
 import com.google.gson.annotations.Expose
 import com.google.gson.annotations.SerializedName
@@ -7,7 +7,7 @@ import com.google.gson.annotations.SerializedName
 /**
  * Created by motibartov on 15/01/2018.
  */
-data class GlobalTemp(
+data class Main(
 
         @SerializedName("temp")
         @Expose

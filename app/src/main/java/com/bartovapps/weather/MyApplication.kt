@@ -15,4 +15,8 @@ class MyApplication : Application() {
                 appModule(AppModule(this)).
                 build()
     }
+
+    public fun getCompoenent() : AppComponent{
+        return component
+    }
 }

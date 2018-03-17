@@ -1,4 +1,4 @@
-package com.bartovapps.weather.model.local
+package com.bartovapps.weather.model
 
 import com.google.gson.annotations.Expose
 import com.google.gson.annotations.SerializedName
@@ -7,8 +7,7 @@ import com.google.gson.annotations.SerializedName
 /**
  * Created by motibartov on 15/01/2018.
  */
-data class Location(
-
+data class City(
         @SerializedName("id")
         @Expose
         var id: Int? = null,

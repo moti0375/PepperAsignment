@@ -1,13 +1,16 @@
 package com.bartovapps.weather.data.source
 
-import com.bartovapps.weather.model.global.GlobalForecast
+import com.bartovapps.weather.model.daily_forecast.DailyForecast
+import com.bartovapps.weather.model.forecast.Forecast
 import io.reactivex.Flowable
 
 /**
  * Created by motibartov on 14/01/2018.
  */
 interface BaseDatasource {
-    fun getLocalWeather(location: String, period: Int) : Flowable<List<com.bartovapps.weather.model.local.LocalForecast>>
-
-    fun getGlobalWeather(group: String, period: Int) : Flowable<List<GlobalForecast>>
+    fun fetchForecast(location: String, period: Int) : Flowable<List<Forecast>>
+    fun fetchDailyForecast(location: String, period: Int) : Flowable<List<DailyForecast>>
+    fun insertForecast(forecast: List<Forecast>)
+    fun insertDailyForecast(dailyForecast: List<DailyForecast>)
+    fun deleteForecast()
 }

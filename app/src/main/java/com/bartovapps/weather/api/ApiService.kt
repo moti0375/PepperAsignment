@@ -1,7 +1,7 @@
 package com.bartovapps.weather.api
 
-import com.bartovapps.weather.model.global.ApiResponseForGlobal
-import com.bartovapps.weather.model.local.ApiResponseForLocation
+import com.bartovapps.weather.model.forecast.ForecastResponse
+import com.bartovapps.weather.model.daily_forecast.DailyResponse
 import io.reactivex.Flowable
 import retrofit2.http.GET
 import retrofit2.http.Query
@@ -39,9 +39,9 @@ interface ApiService {
 
 
     @GET("forecast")
-    fun getGlobalWeather(@Query("id") cities: String, @Query("cnt") period : Int, @Query("units") units: String = "metric" ) : Flowable<ApiResponseForGlobal>
+    fun fetchForecast(@Query("id") cities: String, @Query("cnt") period : Int, @Query("units") units: String = "metric" ) : Flowable<ForecastResponse>
 
 
     @GET("forecast/daily")
-    fun getLocalWeather(@Query("id") location: String, @Query("cnt") period: Int, @Query("units") units: String = "metric" ) : Flowable<ApiResponseForLocation>
+    fun fetchDailyForecast(@Query("id") location: String, @Query("cnt") period: Int, @Query("units") units: String = "metric" ) : Flowable<DailyResponse>
 }

@@ -8,7 +8,7 @@ import android.view.View
 import android.view.ViewGroup
 import com.bartovapps.weather.R
 import com.bartovapps.weather.api.ApiModule
-import com.bartovapps.weather.model.global.GlobalForecast
+import com.bartovapps.weather.model.forecast.Forecast
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
 import kotlinx.android.synthetic.main.daily_list_item.view.*
@@ -20,7 +20,7 @@ import java.util.*
  */
 class DailyForcastAdapter : RecyclerView.Adapter<DailyForcastAdapter.ForecastViewHolder>() {
 
-    var data = ArrayList<GlobalForecast>()
+    var data = ArrayList<Forecast>()
 
     companion object {
         val TAG = "TAG_ForecastAdapter"
@@ -40,7 +40,7 @@ class DailyForcastAdapter : RecyclerView.Adapter<DailyForcastAdapter.ForecastVie
     }
 
 
-    fun updateForecast(forecast: List<GlobalForecast>?) {
+    fun updateForecast(forecast: List<Forecast>?) {
         data.clear()
         if (forecast != null) {
             data.addAll(forecast)
@@ -52,13 +52,13 @@ class DailyForcastAdapter : RecyclerView.Adapter<DailyForcastAdapter.ForecastVie
         var sdf = SimpleDateFormat("h a", Locale.getDefault())
         val glideOptions = RequestOptions().fitCenter()
 
-        fun bind(w: GlobalForecast) {
+        fun bind(w: Forecast) {
             Log.i(TAG, "${w}")
             Glide.with(view.context).load(ApiModule.BASE_ICON_URL + w.weather[0].icon + ".png").apply(glideOptions).into(view.iv_daily_icon)
             val date = w.dt * 1000
-            val dateStr = sdf.format(date) + " - " + DateUtils.getRelativeTimeSpanString(date, System.currentTimeMillis(), DateUtils.DAY_IN_MILLIS, DateUtils.FORMAT_ABBREV_ALL)
+//            val dateStr = sdf.format(date) + " - " + DateUtils.getRelativeTimeSpanString(date, System.currentTimeMillis(), DateUtils.DAY_IN_MILLIS, DateUtils.FORMAT_ABBREV_ALL)
             view.tv_daily_hour.text = sdf.format(date)
-            view.tv_daily_temperature.text = view.context.getString(R.string.temperature, w.globalTemp.temp)
+            view.tv_daily_temperature.text = view.context.getString(R.string.temperature, w.main.temp)
         }
 
     }

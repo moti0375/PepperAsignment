@@ -1,6 +1,9 @@
 package com.bartovapps.weather
 
 import android.content.Context
+import android.content.SharedPreferences
+import android.preference.Preference
+import android.preference.PreferenceManager
 import dagger.Module
 import dagger.Provides
 import javax.inject.Singleton

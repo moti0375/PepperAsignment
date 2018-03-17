@@ -10,7 +10,7 @@ import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
 import com.bartovapps.weather.R
 import com.bartovapps.weather.api.ApiModule
-import com.bartovapps.weather.model.local.LocalForecast
+import com.bartovapps.weather.model.daily_forecast.DailyForecast
 import kotlinx.android.synthetic.main.forecast_list_item.view.*
 import java.text.SimpleDateFormat
 import java.util.*
@@ -20,7 +20,7 @@ import java.util.*
  */
 class WeeklyForecastAdapter : RecyclerView.Adapter<WeeklyForecastAdapter.ForecastViewHolder>() {
 
-    var data = ArrayList<LocalForecast>()
+    var data = ArrayList<DailyForecast>()
 
     companion object {
         val TAG = "TAG_ForecastAdapter"
@@ -40,7 +40,7 @@ class WeeklyForecastAdapter : RecyclerView.Adapter<WeeklyForecastAdapter.Forecas
     }
 
 
-    fun updateForecast(forecast: List<LocalForecast>?) {
+    fun updateForecast(forecast: List<DailyForecast>?) {
         data.clear()
         if (forecast != null) {
             data.addAll(forecast)
@@ -54,7 +54,7 @@ class WeeklyForecastAdapter : RecyclerView.Adapter<WeeklyForecastAdapter.Forecas
         var sdf = SimpleDateFormat("E", Locale.getDefault())
         val glideOptions = RequestOptions().fitCenter()
 
-        fun bind(forecast: LocalForecast) {
+        fun bind(forecast: DailyForecast) {
             Log.i(TAG, "${forecast}")
             Glide.with(view.context).load(ApiModule.BASE_ICON_URL + forecast.weather[0].icon + ".png").apply(glideOptions).into(view.ivItemIcon)
             view.tvMinTemp.text = view.context.getString(R.string.temperature, forecast.temp?.min)

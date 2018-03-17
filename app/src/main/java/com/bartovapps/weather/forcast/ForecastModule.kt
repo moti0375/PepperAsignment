@@ -3,6 +3,7 @@ package com.bartovapps.weather.forcast
 import com.bartovapps.weather.api.ApiService
 import com.bartovapps.weather.data.AppRepository
 import com.bartovapps.weather.data.source.local.LocalDatasource
+import com.bartovapps.weather.data.source.local.WeatherDao
 import com.bartovapps.weather.data.source.remote.RemoteDatasource
 import dagger.Module
 import dagger.Provides
@@ -18,8 +19,8 @@ class ForecastModule {
 
     @Provides
     @Singleton
-    fun provideLocalDataSource() : LocalDatasource{
-        return LocalDatasource()
+    fun provideLocalDataSource(dao: WeatherDao?) : LocalDatasource{
+        return LocalDatasource(dao)
     }
 
     @Provides

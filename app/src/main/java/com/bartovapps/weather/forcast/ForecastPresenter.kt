@@ -12,8 +12,7 @@ import io.reactivex.schedulers.Schedulers
 /**
  * Created by motibartov on 14/01/2018.
  */
-class ForecastPresenter(val repository: AppRepository) : ForecastContract.Presenter {
-
+class ForecastPresenter(private val repository: AppRepository) : ForecastContract.Presenter {
 
     override fun onLocationSelected(location: String) {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
@@ -38,13 +37,17 @@ class ForecastPresenter(val repository: AppRepository) : ForecastContract.Presen
         compositeDisposable.clear()
     }
 
-    override fun loadForecastForLocation(id: String?, period: Int) {
+    override fun loadForecastForLocation(id: String?, period: Int, forceUpdate: Boolean) {
 
         this.id = id
 
+        if(forceUpdate){
+            repository.forceUpdate()
+        }
+
         i(TAG, "loadForecastForLocation: $id")
         if(id != null){
-            val subscribe : Disposable = repository.getLocalWeather(id, period)
+            val subscribe : Disposable = repository.fetchForecast(id, 24)
                     .subscribeOn(Schedulers.io())
                     .observeOn(AndroidSchedulers.mainThread()).subscribe({
                 t -> view?.showForecast(t)
@@ -54,7 +57,7 @@ class ForecastPresenter(val repository: AppRepository) : ForecastContract.Presen
 
             compositeDisposable.add(subscribe)
 
-            val daily : Disposable = repository.getGlobalWeather(id, 24).
+            val daily : Disposable = repository.fetchDailyForecast(id, period).
                     subscribeOn(Schedulers.io()).
                     observeOn(AndroidSchedulers.mainThread()).
                     subscribe({ t-> view?.showDailyForecast(t)},
