@@ -44,19 +44,21 @@ class WeeklyForecastAdapter : RecyclerView.Adapter<WeeklyForecastAdapter.Forecas
         data.clear()
         if (forecast != null) {
             data.addAll(forecast)
+            data.removeAt(0) //Remove the first day
         }
+
         notifyDataSetChanged()
     }
 
     class ForecastViewHolder(val view: View) : RecyclerView.ViewHolder(view) {
-        var sdf = SimpleDateFormat("dd-MM-yyyy", Locale.getDefault())
+        var sdf = SimpleDateFormat("E", Locale.getDefault())
         val glideOptions = RequestOptions().fitCenter()
 
         fun bind(forecast: LocalForecast) {
             Log.i(TAG, "${forecast}")
             Glide.with(view.context).load(ApiModule.BASE_ICON_URL + forecast.weather[0].icon + ".png").apply(glideOptions).into(view.ivItemIcon)
-            view.tvForecastTemp.text = "${forecast.temp?.min}℃ - ${forecast.temp?.max}℃"
-            view.tvDescription.text = "${forecast.weather[0].description}"
+            view.tvMinTemp.text = view.context.getString(R.string.temperature, forecast.temp?.min)
+            view.tvMaxTemp.text = view.context.getString(R.string.temperature, forecast.temp?.max)
             val date = forecast.dt * 1000
             val dateStr = sdf.format(date) + " - " + DateUtils.getRelativeTimeSpanString(date, System.currentTimeMillis(), DateUtils.DAY_IN_MILLIS, DateUtils.FORMAT_ABBREV_ALL)
             view.tvDay.text = dateStr

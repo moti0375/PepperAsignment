@@ -31,7 +31,7 @@ class ForecastFragment : Fragment(), ForecastContract.View {
     lateinit var presenter: ForecastPresenter
 
     @Inject
-    lateinit var adapter: DailyForcastAdapter
+    lateinit var dailyAdapter: DailyForcastAdapter
 
     @Inject
     lateinit var weeklyAdapter: WeeklyForecastAdapter
@@ -74,7 +74,10 @@ class ForecastFragment : Fragment(), ForecastContract.View {
 
         }
         rvDailyForecast.layoutManager = LinearLayoutManager(activity, LinearLayoutManager.HORIZONTAL, false)
-        rvDailyForecast.adapter = adapter
+        rvDailyForecast.adapter = dailyAdapter
+
+        rvWeeklyForecast.layoutManager = LinearLayoutManager(activity)
+        rvWeeklyForecast.adapter = weeklyAdapter
     }
 
     override fun onResume() {
@@ -88,7 +91,7 @@ class ForecastFragment : Fragment(), ForecastContract.View {
     }
 
     override fun showForecast(forecast: List<LocalForecast>?) {
-//        adapter.updateForecast(forecast)
+//        dailyAdapter.updateForecast(forecast)
         i(TAG, "Loaded forecast: $forecast")
         val today = forecast?.get(0)
 
@@ -103,13 +106,14 @@ class ForecastFragment : Fragment(), ForecastContract.View {
 //        tvTemperature.text = getString(R.string.forecast_temp, today?.temp?.min, today?.temp?.max )
         tvTemperature.text = getString(R.string.temperature, today?.temp?.day)
 
+        weeklyAdapter.updateForecast(forecast)
 
     }
 
 
     override fun showDailyForecast(dailyForecast: List<GlobalForecast>?) {
         i(TAG, "showDailyForecast: ${dailyForecast.toString()}")
-        adapter.updateForecast(dailyForecast)
+        dailyAdapter.updateForecast(dailyForecast)
     }
 
 
