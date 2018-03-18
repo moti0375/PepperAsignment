@@ -15,12 +15,12 @@ import java.util.concurrent.Callable
 class LocalDatasource (private val weatherDao: WeatherDao?): BaseDatasource{
 
     override fun fetchForecast(location: String, period : Int) : Flowable<List<Forecast>>{
-        return Flowable.empty()
+        return weatherDao!!.getForecast()
     }
 
 
     override fun fetchDailyForecast(location: String, period: Int): Flowable<List<DailyForecast>> {
-        return Flowable.empty()
+        return weatherDao!!.getDailyForecast()
     }
 
     override fun insertDailyForecast(dailyForecast: List<DailyForecast>) {

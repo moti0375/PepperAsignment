@@ -27,6 +27,7 @@ class AppRepository (val remoteDatasource: RemoteDatasource, val localDatasource
     var cacheDirty : Boolean = true
 
     override fun fetchForecast(location : String, period: Int) : Flowable<List<Forecast>>{
+        i(TAG, "fetchForecast: ")
         return if(!forecastCache.isEmpty() && location == locationId && this.period == period && !cacheDirty){
             Log.i(TAG, "Loading from forecastCache")
             Flowable.just(forecastCache)
@@ -64,12 +65,12 @@ class AppRepository (val remoteDatasource: RemoteDatasource, val localDatasource
     }
 
     override fun fetchDailyForecast(location: String, period: Int): Flowable<List<DailyForecast>> {
-        i(TAG, "getForecastCache:  called")
+        i(TAG, "fetchDailyForecast: ")
         return if(!dailyCache.isEmpty() && location == locationId && this.period == period && !cacheDirty){
             Log.i(TAG, "Loading from forecastCache")
             Flowable.just(dailyCache)
         }else{
-            Log.i(TAG, "Loading from local or remote")
+            Log.i(TAG, "Loading daily forecast from local or remote")
             locationId = location
             this.period = period
             return loadDailyFromDatasource(location, period)
@@ -94,6 +95,7 @@ class AppRepository (val remoteDatasource: RemoteDatasource, val localDatasource
             it -> forecastCache.clear()
             dailyCache.addAll(it)
             insertDailyForecast(it)
+            i(TAG, "loadDailyFromRemote: doOnNext")
         }
     }
 

@@ -18,7 +18,7 @@ import java.util.*
 /**
  * Created by motibartov on 14/01/2018.
  */
-class WeeklyForecastAdapter : RecyclerView.Adapter<WeeklyForecastAdapter.ForecastViewHolder>() {
+class ForecastAdapter : RecyclerView.Adapter<ForecastAdapter.ForecastViewHolder>() {
 
     var data = ArrayList<DailyForecast>()
 

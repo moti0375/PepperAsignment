@@ -1,5 +1,6 @@
 package com.bartovapps.weather.data.source
 
+import android.arch.lifecycle.LiveData
 import com.bartovapps.weather.model.daily_forecast.DailyForecast
 import com.bartovapps.weather.model.forecast.Forecast
 import io.reactivex.Flowable

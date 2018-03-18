@@ -5,6 +5,7 @@ import com.bartovapps.weather.data.AppRepository
 import com.bartovapps.weather.data.source.local.LocalDatasource
 import com.bartovapps.weather.data.source.local.WeatherDao
 import com.bartovapps.weather.data.source.remote.RemoteDatasource
+import com.bartovapps.weather.settings.PreferencesHelper
 import dagger.Module
 import dagger.Provides
 import java.text.SimpleDateFormat
@@ -37,15 +38,8 @@ class ForecastModule {
 
     @Provides
     @Singleton
-    fun provideForecastPresenter(repository: AppRepository) : ForecastPresenter{
-        return ForecastPresenter(repository)
-    }
-
-
-    @Provides
-    @Singleton
-    fun provideForecastAdapter(): WeeklyForecastAdapter {
-        return WeeklyForecastAdapter()
+    fun provideForecastAdapter(): ForecastAdapter {
+        return ForecastAdapter()
     }
 
     @Provides
@@ -61,8 +55,8 @@ class ForecastModule {
     }
 
     @Provides
-    fun provideViewModelFactory(repository: AppRepository) : ForecastViewModelFactory{
-        return ForecastViewModelFactory(repository)
+    fun provideViewModelFactory(repository: AppRepository, preferencesHelper: PreferencesHelper) : ForecastViewModelFactory{
+        return ForecastViewModelFactory(repository, preferencesHelper)
     }
 
 }

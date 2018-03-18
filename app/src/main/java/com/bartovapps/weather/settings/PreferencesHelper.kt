@@ -6,6 +6,7 @@ class PreferencesHelper(val sharedPreferences: SharedPreferences){
 
     companion object {
         const val DEFAULT_PERIOD = "5" //It's a string as it is a String array in the preferences screen
+        const val DEFAULT_LOCATION = "Tel Aviv" //It's a string as it is a String array in the preferences screen
 
         const val LOCATION_KEY = "location_key"
         const val PERIOD_KEY = "period_key"
@@ -13,7 +14,7 @@ class PreferencesHelper(val sharedPreferences: SharedPreferences){
     }
 
     fun getLocation() : String?{
-        return sharedPreferences.getString(LOCATION_KEY, null)
+        return sharedPreferences.getString(LOCATION_KEY, DEFAULT_LOCATION)
     }
 
     fun saveLocation(location: String){

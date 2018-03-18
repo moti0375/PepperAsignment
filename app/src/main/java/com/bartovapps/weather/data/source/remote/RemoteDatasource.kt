@@ -1,5 +1,6 @@
 package com.bartovapps.weather.data.source.remote
 
+import android.arch.lifecycle.LiveData
 import com.bartovapps.weather.api.ApiService
 import com.bartovapps.weather.data.source.BaseDatasource
 import com.bartovapps.weather.model.daily_forecast.DailyForecast
@@ -15,7 +16,7 @@ class RemoteDatasource (val apiService: ApiService) : BaseDatasource{
     override fun fetchForecast(location: String, period: Int) : Flowable<List<Forecast>>{
         val map = hashMapOf<String, String>()
         return apiService.fetchForecast(location, period).map{
-            it -> it.forecast
+            it ->  it.forecast
         }
     }
 
