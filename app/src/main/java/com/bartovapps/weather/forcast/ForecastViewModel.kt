@@ -19,12 +19,12 @@ class ForecastViewModel(val repository: AppRepository, val preferencesHelper: Pr
     }
     val forecast  = MutableLiveData<List<Forecast>>()
     val dailyForecast = MutableLiveData<List<DailyForecast>>()
-    val compositeDisposable = CompositeDisposable()
+    private val compositeDisposable = CompositeDisposable()
 
 
-    fun getLiveDateForecast(location: String, period: Int, forceUpdate: Boolean) {
+    fun fetchForecast(location: String, period: Int, forceUpdate: Boolean) {
 
-        i(TAG, "getLiveDateForecast: ")
+        i(TAG, "fetchForecast: ")
         if(forceUpdate){
             repository.forceUpdate()
         }

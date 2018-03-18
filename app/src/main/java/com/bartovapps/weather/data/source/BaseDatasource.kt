@@ -5,9 +5,7 @@ import com.bartovapps.weather.model.daily_forecast.DailyForecast
 import com.bartovapps.weather.model.forecast.Forecast
 import io.reactivex.Flowable
 
-/**
- * Created by motibartov on 14/01/2018.
- */
+
 interface BaseDatasource {
     fun fetchForecast(location: String, period: Int) : Flowable<List<Forecast>>
     fun fetchDailyForecast(location: String, period: Int) : Flowable<List<DailyForecast>>

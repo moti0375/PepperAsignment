@@ -33,7 +33,7 @@ import javax.inject.Inject
 class ForecastFragment : Fragment() {
 
     @Inject
-    lateinit var dailyAdapter: DailyForcastAdapter
+    lateinit var dailyAdapter: DailyForecastAdapter
     @Inject
     lateinit var forecastAdapter: ForecastAdapter
     @Inject
@@ -43,6 +43,7 @@ class ForecastFragment : Fragment() {
 
     @Inject lateinit var sdf : SimpleDateFormat
 
+    //ViewModelFactory required to provide the ViewModel dependencies
     @Inject lateinit var viewModelFactory: ForecastViewModelFactory
 
     lateinit var viewModel: ForecastViewModel
@@ -60,18 +61,14 @@ class ForecastFragment : Fragment() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         viewModel = ViewModelProviders.of(this, viewModelFactory).get(ForecastViewModel::class.java)
-        viewModel.forecast.observe(this as LifecycleOwner, object : Observer<List<Forecast>>{
-            override fun onChanged(t: List<Forecast>?) {
-                i(TAG, "forecast: onChanged")
-                showForecast(t)
-            }
+        viewModel.forecast.observe(this as LifecycleOwner, Observer<List<Forecast>> { t ->
+            i(TAG, "forecast: onChanged")
+            showForecast(t)
         })
 
-        viewModel.dailyForecast.observe(this as LifecycleOwner, object : Observer<List<DailyForecast>>{
-            override fun onChanged(t: List<DailyForecast>?) {
-                i(TAG, "dailyForecast: onChanged")
-                showDailyForecast(t)
-            }
+        viewModel.dailyForecast.observe(this as LifecycleOwner, Observer<List<DailyForecast>> { t ->
+            i(TAG, "dailyForecast: onChanged")
+            showDailyForecast(t)
         })
     }
 
@@ -83,45 +80,34 @@ class ForecastFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        i(TAG, "onViewCreated: ")
         spLocation.setSelection(getSelectionPosition(preferencesHelper.getLocation()))
         spLocation.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
             override fun onNothingSelected(parent: AdapterView<*>?) {
-                i(TAG, "onNothingSelected: nothing selected")
             }
 
             override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
 
                 val selectedItem: String? = ApiService.cities[spLocation.selectedItem as String]
                 val period = preferencesHelper.getPeriod()
-                i(TAG, "onItemSelected: Item selected: ${spLocation.selectedItem}")
 
                 if(selectedItem != null){
-                    viewModel.getLiveDateForecast(selectedItem, period, forecastDirty(spLocation.selectedItem as String))
+                    viewModel.fetchForecast(selectedItem, period, forecastDirty(spLocation.selectedItem as String))
                 }
             }
         }
 
+        //Setup the adapters
         rvDailyForecast.layoutManager = LinearLayoutManager(activity, LinearLayoutManager.HORIZONTAL, false)
         rvDailyForecast.adapter = dailyAdapter
-
         rvWeeklyForecast.layoutManager = LinearLayoutManager(activity)
         rvWeeklyForecast.adapter = forecastAdapter
-    }
-
-    override fun onResume() {
-        super.onResume()
-    }
-
-    override fun onPause() {
-        super.onPause()
     }
 
      fun showDailyForecast(dailyForecast: List<DailyForecast>?) {
         val today = dailyForecast?.get(0)
 
         if(today != null){
-            val date = today.dt * 1000
+            val date = today.dt * 1000  //The date value from the OpenWeather API is in unix format so it should be multiply by 1000
             tvTodayDate.text = DateUtils.getRelativeTimeSpanString(date, System.currentTimeMillis(), DateUtils.DAY_IN_MILLIS, DateUtils.FORMAT_ABBREV_ALL)
         }
 
@@ -139,8 +125,13 @@ class ForecastFragment : Fragment() {
 
 
     /**
+     * This method checks if the forecast is dirty and should be updated
+     * The forecast is dirty if the selected location different than the last forecast location or if the current
+     * forecast is old.
+     * Both the last location and last updated saved in app shared preferences.
      *
-     *
+     * @param selectedLocation selected location for forecast
+     * @return if the forecast is dirty, it should be updated
      */
     private fun forecastDirty(selectedLocation: String) : Boolean{
         val location = preferencesHelper.getLocation()

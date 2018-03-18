@@ -15,9 +15,7 @@ import kotlinx.android.synthetic.main.forecast_list_item.view.*
 import java.text.SimpleDateFormat
 import java.util.*
 
-/**
- * Created by motibartov on 14/01/2018.
- */
+
 class ForecastAdapter : RecyclerView.Adapter<ForecastAdapter.ForecastViewHolder>() {
 
     var data = ArrayList<DailyForecast>()

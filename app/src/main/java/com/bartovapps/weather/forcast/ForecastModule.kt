@@ -12,9 +12,7 @@ import java.text.SimpleDateFormat
 import java.util.*
 import javax.inject.Singleton
 
-/**
- * Created by motibartov on 14/01/2018.
- */
+
 @Module
 class ForecastModule {
 
@@ -44,8 +42,8 @@ class ForecastModule {
 
     @Provides
     @Singleton
-    fun provideDailyAdapter(): DailyForcastAdapter{
-        return DailyForcastAdapter()
+    fun provideDailyAdapter(): DailyForecastAdapter{
+        return DailyForecastAdapter()
     }
 
     @Provides

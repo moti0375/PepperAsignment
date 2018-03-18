@@ -7,12 +7,9 @@ import com.bartovapps.weather.data.source.local.LocalDatasource
 import com.bartovapps.weather.data.source.remote.RemoteDatasource
 import com.bartovapps.weather.model.daily_forecast.DailyForecast
 import com.bartovapps.weather.model.forecast.Forecast
-import io.reactivex.Completable
 import io.reactivex.Flowable
 
-/**
- * Created by motibartov on 14/01/2018.
- */
+
 class AppRepository (val remoteDatasource: RemoteDatasource, val localDatasource: LocalDatasource) : BaseDatasource{
 
 

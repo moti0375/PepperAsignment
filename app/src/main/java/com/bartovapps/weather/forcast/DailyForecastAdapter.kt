@@ -1,7 +1,6 @@
 package com.bartovapps.weather.forcast
 
 import android.support.v7.widget.RecyclerView
-import android.text.format.DateUtils
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -15,10 +14,8 @@ import kotlinx.android.synthetic.main.daily_list_item.view.*
 import java.text.SimpleDateFormat
 import java.util.*
 
-/**
- * Created by motibartov on 14/01/2018.
- */
-class DailyForcastAdapter : RecyclerView.Adapter<DailyForcastAdapter.ForecastViewHolder>() {
+
+class DailyForecastAdapter : RecyclerView.Adapter<DailyForecastAdapter.ForecastViewHolder>() {
 
     var data = ArrayList<Forecast>()
 

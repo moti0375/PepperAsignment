@@ -7,9 +7,6 @@ import com.google.gson.annotations.SerializedName
 import com.bartovapps.weather.model.Weather
 
 
-/**
- * Created by motibartov on 15/01/2018.
- */
 @Entity(tableName = "forecast")
 data class Forecast(
         @PrimaryKey
