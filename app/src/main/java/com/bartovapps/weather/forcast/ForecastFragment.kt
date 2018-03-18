@@ -1,5 +1,6 @@
 package com.bartovapps.weather.forcast
 
+import android.arch.lifecycle.ViewModelProviders
 import android.content.Context
 import android.content.SharedPreferences
 import android.os.Bundle
@@ -45,6 +46,10 @@ class ForecastFragment : Fragment(), ForecastContract.View {
 
     @Inject lateinit var sdf : SimpleDateFormat
 
+    @Inject lateinit var viewModelFactory: ForecastViewModelFactory
+
+    lateinit var viewModel: ForecastViewModel
+
     var forceUpdate : Boolean = true
     companion object {
         val TAG = "ForecastFragment"
@@ -55,6 +60,11 @@ class ForecastFragment : Fragment(), ForecastContract.View {
         super.onAttach(context)
         (activity?.application as MyApplication).component.injectForecast(this)
         sharedPreferences = PreferenceManager.getDefaultSharedPreferences(activity)
+    }
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        viewModel = ViewModelProviders.of(this, viewModelFactory).get(ForecastViewModel::class.java)
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,

@@ -60,5 +60,9 @@ class ForecastModule {
         return SimpleDateFormat("dd-MM-yyyy", Locale.getDefault())
     }
 
+    @Provides
+    fun provideViewModelFactory(repository: AppRepository) : ForecastViewModelFactory{
+        return ForecastViewModelFactory(repository)
+    }
 
 }
