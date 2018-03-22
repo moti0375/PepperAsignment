@@ -9,9 +9,6 @@ import com.bartovapps.weather.model.daily_forecast.DailyForecast
 import com.bartovapps.weather.model.forecast.Forecast
 
 
-/**
- * Created by motibartov on 17/03/2018.
- */
 @Dao
 interface WeatherDao {
 

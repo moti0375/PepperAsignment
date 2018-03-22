@@ -7,9 +7,6 @@ import com.google.gson.annotations.Expose
 import com.google.gson.annotations.SerializedName
 
 
-/**
- * Created by motibartov on 14/01/2018.
- */
 @Entity(tableName = "daily_forecast")
 data class DailyForecast(
         @PrimaryKey
